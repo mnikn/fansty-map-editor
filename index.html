@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <style>
+      html {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      #app {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      #canvas {
+        flex-grow: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button>add node</button>
+      <svg id="canvas">
+        <g
+          id="node-selected-container"
+          data-container-size="20"
+          style="visibility: hidden"
+        >
+          <rect
+            fill="transparent"
+            stroke="#2c2c2c"
+            stroke-width="1"
+            height="100%"
+            width="100%"
+          ></rect>
+          <circle cx="5" cy="5" r="3" fill="red"></circle>
+        </g>
+      </svg>
+    </div>
+  </body>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script type="text/javascript" src="./app.js"></script>
+</html>
