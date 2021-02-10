@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorGrid.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/fantasy_map_editor/EditorPropertyPanel.tscn" type="PackedScene" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.792157, 0.792157, 0.792157, 1 )
@@ -64,10 +65,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PropertyPanel" type="PopupPanel" parent="CanvasLayer"]
-anchor_bottom = 1.0
-rect_min_size = Vector2( 200, 0 )
-popup_exclusive = true
+[node name="PropertyPanel" parent="CanvasLayer" instance=ExtResource( 3 )]
 
 [node name="Grid" parent="." instance=ExtResource( 2 )]
 visible = false
