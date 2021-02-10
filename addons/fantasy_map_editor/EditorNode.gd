@@ -6,11 +6,12 @@ export var origin = Vector2.ZERO setget set_origin
 export var node_size = 50 setget set_node_size
 export var lineWidth = 2
 export var lineColor = Color.black
-export var points = 12
+export var points = 12 setget set_points
 
 var selecting = false setget set_selecting
 var mouse_hold_time = 0
 var noise = OpenSimplexNoise.new()
+var shape_points = []
 
 func _ready():
     randomize()
@@ -26,13 +27,14 @@ func _input(event):
         if self.is_in_mouse():
             self.selecting = true
         else:
-            var panel = self.get_parent().get_parent().PropertyPanel
-            if self.get_global_mouse_position().x >= panel.rect_global_position.x and \
-                self.get_global_mouse_position().x <= panel.rect_global_position.x + panel.rect_size.x and \
-                self.get_global_mouse_position().y >= panel.rect_global_position.y and \
-                self.get_global_mouse_position().y <= panel.rect_global_position.y + panel.rect_size.y:
-                    return
-            self.selecting = false
+            if self.get_parent().get_parent() != null:
+                var panel = self.get_parent().get_parent().PropertyPanel
+                if self.get_global_mouse_position().x >= panel.rect_global_position.x and \
+                    self.get_global_mouse_position().x <= panel.rect_global_position.x + panel.rect_size.x and \
+                    self.get_global_mouse_position().y >= panel.rect_global_position.y and \
+                    self.get_global_mouse_position().y <= panel.rect_global_position.y + panel.rect_size.y:
+                        return
+                self.selecting = false
 
 func _physics_process(delta):
     if self.selecting and Input.is_mouse_button_pressed(BUTTON_LEFT):
@@ -47,21 +49,37 @@ func _physics_process(delta):
         mouse_hold_time = 0
 
 func _draw():
-    print_debug("draw")
     self.draw_node()
     if self.selecting:
         self.draw_container()
 
 func draw_node():
-    var points_arr = PoolVector2Array();
-    for i in range(self.points + 1):
-        var degree = i * (360 / self.points)
-        var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + 10
-        var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + 10
-#        x = noise.get_noise_2d(x, 0) * node_size * 2 + 10        
-#        y = noise.get_noise_2d(0, y) * node_size * 2 + 10        
-        points_arr.append(Vector2(x, y));
+    var points_arr = self.shape_points
+    if len(points_arr) <= 0:
+        for i in range(self.points + 1):
+            var degree = i * (360 / self.points)
+            var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + 10
+            var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + 10 
+            points_arr.push_back(Vector2(x, y))
+
+        var control_points = []
+        for i in range(len(points_arr) - 1):
+            var start_point = points_arr[i]
+            var end_point = points_arr[i+1]
+            var x_diff = ((end_point.x - start_point.x) / 2) + randi() % 10
+            var y_diff = ((end_point.y - start_point.y) / 2) + randi() % 10
+            var control_point = Vector2(start_point.x + x_diff, start_point.y + y_diff)
+            control_points.push_back(control_point)
+        for i in range(len(points_arr)*2 - 1):
+            if i % 2 != 0:
+                points_arr.insert(i, control_points[i/2])
+        self.shape_points = points_arr
     draw_polyline(points_arr, lineColor, lineWidth, true)
+
+func get_edge_node(degree):
+    var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + 10
+    var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + 10
+    return Vector2(x, y)
 
 func draw_container():
     var size = self.node_size * 2 + 20
@@ -75,12 +93,18 @@ func draw_container():
 func set_origin(value):
     origin = value
     self.rect_position = origin
-    self.update()
 
 func set_node_size(value):
     node_size = value
     self.rect_min_size = Vector2((node_size + 10) * 2, (node_size + 10) * 2)
+    self.shape_points = []
     self.update()
+
+func set_points(value):
+    if points != value:
+        points = value
+        self.shape_points = []
+        self.update()
 
 func set_selecting(value):
     if value != selecting:
