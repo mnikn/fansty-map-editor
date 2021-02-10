@@ -56,6 +56,11 @@ margin_right = 100.0
 margin_bottom = 50.0
 text = "Delete node"
 
+[node name="RegenerateButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
+margin_right = 84.0
+margin_bottom = 20.0
+text = "Regenerate"
+
 [node name="ConnectButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
 margin_top = 50.0
 margin_right = 100.0
@@ -71,3 +76,4 @@ __meta__ = {
 visible = false
 [connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/AddButton" to="." method="_on_AddButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/DeleteButton" to="." method="_on_DeleteButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]

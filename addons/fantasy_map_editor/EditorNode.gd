@@ -6,8 +6,10 @@ export var origin = Vector2.ZERO setget set_origin
 export var node_size = 50 setget set_node_size
 export var lineWidth = 2
 export var lineColor = Color.black
-export var points = 12 setget set_points
+export var points = 24 setget set_points
+export var edge_random_coefficient = 0.3 setget set_edge_random_coefficient
 
+const SPACING = 10
 var selecting = false setget set_selecting
 var mouse_hold_time = 0
 var noise = OpenSimplexNoise.new()
@@ -48,6 +50,10 @@ func _physics_process(delta):
     else:
         mouse_hold_time = 0
 
+func regenerate():
+    self.shape_points = []
+    self.update()
+
 func _draw():
     self.draw_node()
     if self.selecting:
@@ -55,54 +61,96 @@ func _draw():
 
 func draw_node():
     var points_arr = self.shape_points
-    if len(points_arr) <= 0:
-        for i in range(self.points + 1):
-            var degree = i * (360 / self.points)
-            var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + 10
-            var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + 10 
+    if len(points_arr) <= 0: 
+        for i in range(self.points / 2 + 1):
+            var degree = i * (360 / (self.points / 2))
+            var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + SPACING
+            var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + SPACING 
             points_arr.push_back(Vector2(x, y))
 
+        ## add controls points
         var control_points = []
         for i in range(len(points_arr) - 1):
             var start_point = points_arr[i]
             var end_point = points_arr[i+1]
-            var x_diff = ((end_point.x - start_point.x) / 2) + randi() % 10
-            var y_diff = ((end_point.y - start_point.y) / 2) + randi() % 10
+            var x_diff = ((end_point.x - start_point.x) / 2)
+            x_diff += rand_range(-x_diff, x_diff)
+            print_debug(x_diff)
+            var y_diff = ((end_point.y - start_point.y) / 2)
+            y_diff += rand_range(-y_diff, y_diff)
             var control_point = Vector2(start_point.x + x_diff, start_point.y + y_diff)
             control_points.push_back(control_point)
-        for i in range(len(points_arr)*2 - 1):
+        for i in range(len(points_arr) * 2 - 1):
             if i % 2 != 0:
                 points_arr.insert(i, control_points[i/2])
+
+        ## transform control points
+        for i in range(len(points_arr) - 1):
+            if i % 2 != 0:
+                var start_point = points_arr[i-1]
+                var control_point = points_arr[i]
+                var end_point = points_arr[i+1]
+                var start_control_point = Vector2(
+                    start_point.x + (control_point.x - start_point.x) * self.edge_random_coefficient,
+                    start_point.y + (control_point.y - start_point.y) * self.edge_random_coefficient
+                )
+                var end_control_point = Vector2(
+                    control_point.x + (end_point.x - control_point.x) * self.edge_random_coefficient,
+                    control_point.y + (end_point.y - control_point.y) * self.edge_random_coefficient
+                )
+                var final_control_point = Vector2(
+                    start_control_point.x + (end_control_point.x - start_control_point.x) * self.edge_random_coefficient,
+                    start_control_point.y + (end_control_point.y - start_control_point.y) * self.edge_random_coefficient
+                )
+                points_arr[i] = final_control_point
+
         self.shape_points = points_arr
     draw_polyline(points_arr, lineColor, lineWidth, true)
 
-func get_edge_node(degree):
-    var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + 10
-    var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + 10
-    return Vector2(x, y)
+#func insert_control_points(points_arr):
+#    var control_points = []
+#    for i in range(len(points_arr) - 1):
+#        var start_point = points_arr[i]
+#        var end_point = points_arr[i+1]
+#        var x_diff = ((end_point.x - start_point.x) / 2)
+#        x_diff += rand_range(-x_diff, x_diff)
+#        var y_diff = ((end_point.y - start_point.y) / 2)
+#        y_diff += rand_range(-y_diff, y_diff)
+#        var control_point = Vector2(start_point.x + x_diff, start_point.y + y_diff)
+#        control_points.push_back(control_point)
+#    for i in range(len(points_arr)*2 - 1):
+#        if i % 2 != 0:
+#            points_arr.insert(i, control_points[i/2])
 
 func draw_container():
-    var size = self.node_size * 2 + 20
+    var size = self.node_size * 2 + SPACING * 2
     draw_rect(Rect2(
         Vector2.ZERO, 
         Vector2(size, size)), 
         Color("2c2c2c"), 
         false)
-    draw_circle(Vector2(self.node_size + 10, self.node_size + 10), 2, Color.red)
+    draw_circle(Vector2(self.node_size + SPACING, self.node_size + SPACING), 2, Color.red)
 
 func set_origin(value):
     origin = value
     self.rect_position = origin
 
 func set_node_size(value):
-    node_size = value
-    self.rect_min_size = Vector2((node_size + 10) * 2, (node_size + 10) * 2)
-    self.shape_points = []
-    self.update()
+    if node_size != value:
+        node_size = value
+        self.rect_min_size = Vector2((node_size + SPACING) * 2, (node_size + SPACING) * 2)
+        self.shape_points = []
+        self.update()
 
 func set_points(value):
     if points != value:
         points = value
+        self.shape_points = []
+        self.update()
+
+func set_edge_random_coefficient(value):
+    if edge_random_coefficient != value:
+        edge_random_coefficient = value
         self.shape_points = []
         self.update()
 

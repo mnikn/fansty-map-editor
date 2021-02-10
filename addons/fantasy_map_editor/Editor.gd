@@ -28,6 +28,13 @@ func _on_DeleteButton_pressed():
             $MapNodeContainer.remove_child(node)
     self.ActionMenu.hide()
 
+func _on_RegenerateButton_pressed():
+    for node in $MapNodeContainer.get_children():
+        if node.selecting:
+            node.regenerate()
+    self.ActionMenu.hide()
+
+
 func show_property(node):
     self.PropertyPanel.current_node = node
     self.PropertyPanel.popup()
@@ -41,7 +48,4 @@ func _process(delta):
         self.PropertyPanel.hide()
 
 func _on_node_selected(node):
-#    for child in $MapNodeContainer.get_children():
-#        if child != node:
-#            child.selecting = false
     self.show_property(node)

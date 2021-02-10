@@ -7,9 +7,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -150.0
+margin_left = -260.0
 margin_top = -200.0
-rect_min_size = Vector2( 150, 200 )
+rect_min_size = Vector2( 250, 200 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 popup_exclusive = true
@@ -36,7 +36,7 @@ __meta__ = {
 [node name="GridContainer" type="GridContainer" parent="MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 132.0
+margin_right = 242.0
 margin_bottom = 182.0
 columns = 2
 __meta__ = {
@@ -45,7 +45,7 @@ __meta__ = {
 
 [node name="SizeLabel" type="Label" parent="MarginContainer/GridContainer"]
 margin_top = 5.0
-margin_right = 44.0
+margin_right = 154.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
 text = "Size"
@@ -53,8 +53,8 @@ align = 1
 valign = 1
 
 [node name="SizeValue" type="SpinBox" parent="MarginContainer/GridContainer"]
-margin_left = 48.0
-margin_right = 122.0
+margin_left = 158.0
+margin_right = 232.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 min_value = 1.0
@@ -64,7 +64,7 @@ align = 1
 
 [node name="PointsLabel" type="Label" parent="MarginContainer/GridContainer"]
 margin_top = 33.0
-margin_right = 44.0
+margin_right = 154.0
 margin_bottom = 47.0
 size_flags_horizontal = 3
 text = "Points"
@@ -72,15 +72,36 @@ align = 1
 valign = 1
 
 [node name="PointsValue" type="SpinBox" parent="MarginContainer/GridContainer"]
-margin_left = 48.0
+margin_left = 158.0
 margin_top = 28.0
-margin_right = 122.0
+margin_right = 232.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
-min_value = 3.0
-max_value = 20.0
-value = 12.0
+min_value = 8.0
+max_value = 100.0
+value = 24.0
 rounded = true
+align = 1
+
+[node name="EdgeRandomLabel" type="Label" parent="MarginContainer/GridContainer"]
+margin_top = 61.0
+margin_right = 154.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+text = "Edge random coefficient"
+align = 1
+valign = 1
+
+[node name="EdgeRandomValue" type="SpinBox" parent="MarginContainer/GridContainer"]
+margin_left = 158.0
+margin_top = 56.0
+margin_right = 232.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.1
+value = 0.3
 align = 1
 [connection signal="value_changed" from="MarginContainer/GridContainer/SizeValue" to="." method="_on_SizeValue_value_changed"]
 [connection signal="value_changed" from="MarginContainer/GridContainer/PointsValue" to="." method="_on_PointsValue_value_changed"]
+[connection signal="value_changed" from="MarginContainer/GridContainer/EdgeRandomValue" to="." method="_on_EdgeRandomValue_value_changed"]
