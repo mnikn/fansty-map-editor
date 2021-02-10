@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
+[ext_resource path="res://addons/fantasy_map_editor/EditorGrid.tscn" type="PackedScene" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.792157, 0.792157, 0.792157, 1 )
+
+[node name="Editor" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+
+[node name="MapNodeContainer" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ActionMenu" type="Popup" parent="CanvasLayer"]
+margin_right = 100.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 100, 80 )
+
+[node name="Layout" type="VBoxContainer" parent="CanvasLayer/ActionMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
+margin_top = 10.0
+margin_right = 100.0
+margin_bottom = 30.0
+text = "Add node"
+
+[node name="DeleteButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
+margin_top = 30.0
+margin_right = 100.0
+margin_bottom = 50.0
+text = "Delete node"
+
+[node name="ConnectButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
+margin_top = 50.0
+margin_right = 100.0
+margin_bottom = 70.0
+text = "Connect node"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PropertyPanel" type="PopupPanel" parent="CanvasLayer"]
+anchor_bottom = 1.0
+rect_min_size = Vector2( 200, 0 )
+popup_exclusive = true
+
+[node name="Grid" parent="." instance=ExtResource( 2 )]
+visible = false
+[connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/AddButton" to="." method="_on_AddButton_pressed"]
+[connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/DeleteButton" to="." method="_on_DeleteButton_pressed"]
