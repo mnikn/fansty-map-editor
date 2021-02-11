@@ -24,6 +24,9 @@ func _ready():
     noise.persistence = 0.8
     noise.lacunarity = 1.5
     
+    self.rect_min_size = Vector2((node_size + SPACING) * 2, (node_size + SPACING) * 2)
+
+    
 func _input(event):
     if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
         if self.is_in_mouse():
@@ -144,7 +147,7 @@ func set_node_size(value):
 
 func set_points(value):
     if points != value:
-        points = value
+        points = value - 1 if int(value) % 2 != 0 else value
         self.shape_points = []
         self.update()
 
