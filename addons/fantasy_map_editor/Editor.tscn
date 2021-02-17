@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorGrid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/fantasy_map_editor/EditorPropertyPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.792157, 0.792157, 0.792157, 1 )
 
 [node name="Editor" type="Panel"]
 anchor_right = 1.0
@@ -16,17 +16,36 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Camera2D" type="Camera2D" parent="."]
-visible = false
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="MapNodeContainer" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="TopMenu" type="Panel" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="Layout" type="HBoxContainer" parent="CanvasLayer/TopMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileButton" type="MenuButton" parent="CanvasLayer/TopMenu/Layout"]
+margin_right = 35.0
+margin_bottom = 32.0
+size_flags_horizontal = 0
+text = "File"
+
+[node name="Config" type="MenuButton" parent="CanvasLayer/TopMenu/Layout"]
+margin_left = 39.0
+margin_right = 90.0
+margin_bottom = 32.0
+size_flags_horizontal = 0
+text = "Config"
 
 [node name="ActionMenu" type="Popup" parent="CanvasLayer"]
 margin_right = 100.0
@@ -45,26 +64,26 @@ __meta__ = {
 }
 
 [node name="AddButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_top = 10.0
 margin_right = 100.0
-margin_bottom = 30.0
+margin_bottom = 20.0
 text = "Add node"
 
 [node name="DeleteButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_top = 30.0
+margin_top = 20.0
 margin_right = 100.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 text = "Delete node"
 
 [node name="RegenerateButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_right = 84.0
-margin_bottom = 20.0
+margin_top = 40.0
+margin_right = 100.0
+margin_bottom = 60.0
 text = "Regenerate"
 
 [node name="ConnectButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_top = 50.0
+margin_top = 60.0
 margin_right = 100.0
-margin_bottom = 70.0
+margin_bottom = 80.0
 text = "Connect node"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -72,8 +91,61 @@ __meta__ = {
 
 [node name="PropertyPanel" parent="CanvasLayer" instance=ExtResource( 3 )]
 
-[node name="Grid" parent="." instance=ExtResource( 2 )]
+[node name="Preview" type="Panel" parent="CanvasLayer"]
+anchor_top = 0.98
+anchor_bottom = 0.98
+margin_top = -150.0
+margin_right = 150.0
+rect_min_size = Vector2( 150, 150 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Pic" type="TextureRect" parent="CanvasLayer/Preview"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 3.0
+margin_top = 3.0
+margin_right = -3.0
+margin_bottom = -3.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ViewportContainer" type="ViewportContainer" parent="ScrollContainer"]
+margin_right = 2048.0
+margin_bottom = 1200.0
+rect_min_size = Vector2( 2048, 1200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MapNodeContainer" type="Control" parent="ScrollContainer/ViewportContainer"]
+margin_right = 2048.0
+margin_bottom = 1200.0
+rect_min_size = Vector2( 2048, 1200 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" parent="ScrollContainer/ViewportContainer" instance=ExtResource( 2 )]
 visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
 [connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/AddButton" to="." method="_on_AddButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/DeleteButton" to="." method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

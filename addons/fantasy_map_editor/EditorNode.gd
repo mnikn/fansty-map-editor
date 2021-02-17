@@ -6,8 +6,8 @@ export var origin = Vector2.ZERO setget set_origin
 export var node_size = 50 setget set_node_size
 export var lineWidth = 2
 export var lineColor = Color.black
-export var points = 24 setget set_points
-export var edge_random_coefficient = 0.3 setget set_edge_random_coefficient
+export var points = 20 setget set_points
+export var random_size = 10 setget set_random_size
 
 const SPACING = 10
 var selecting = false setget set_selecting
@@ -32,8 +32,8 @@ func _input(event):
         if self.is_in_mouse():
             self.selecting = true
         else:
-            if self.get_parent().get_parent() != null:
-                var panel = self.get_parent().get_parent().PropertyPanel
+            if self.get_parent().get_parent().get_parent() != null:
+                var panel = self.get_parent().get_parent().get_parent().get_parent().PropertyPanel
                 if self.get_global_mouse_position().x >= panel.rect_global_position.x and \
                     self.get_global_mouse_position().x <= panel.rect_global_position.x + panel.rect_size.x and \
                     self.get_global_mouse_position().y >= panel.rect_global_position.y and \
@@ -45,8 +45,8 @@ func _physics_process(delta):
     if self.selecting and Input.is_mouse_button_pressed(BUTTON_LEFT):
         if mouse_hold_time >= 10:
             self.origin = Vector2(
-                get_global_mouse_position().x - self.node_size,
-                get_global_mouse_position().y - self.node_size
+                get_global_mouse_position().x + get_parent().get_parent().get_parent().scroll_horizontal - self.node_size,
+                get_global_mouse_position().y + get_parent().get_parent().get_parent().scroll_vertical - self.node_size
             )
         else:
             mouse_hold_time += 1
@@ -64,66 +64,21 @@ func _draw():
 
 func draw_node():
     var points_arr = self.shape_points
-    if len(points_arr) <= 0: 
-        for i in range(self.points / 2 + 1):
-            var degree = i * (360 / (self.points / 2))
+    if len(points_arr) <= 0:
+        var curve = Curve2D.new()
+        for i in range(self.points + 1):
+            var degree = i * (360 / (self.points))
             var x = cos(((PI * 2) / 360) * degree) * node_size + node_size + SPACING
             var y = sin(((PI * 2) / 360) * degree) * node_size + node_size + SPACING 
+            
             points_arr.push_back(Vector2(x, y))
-
-        ## add controls points
-        var control_points = []
-        for i in range(len(points_arr) - 1):
-            var start_point = points_arr[i]
-            var end_point = points_arr[i+1]
-            var x_diff = ((end_point.x - start_point.x) / 2)
-            x_diff += rand_range(-x_diff, x_diff)
-            print_debug(x_diff)
-            var y_diff = ((end_point.y - start_point.y) / 2)
-            y_diff += rand_range(-y_diff, y_diff)
-            var control_point = Vector2(start_point.x + x_diff, start_point.y + y_diff)
-            control_points.push_back(control_point)
-        for i in range(len(points_arr) * 2 - 1):
-            if i % 2 != 0:
-                points_arr.insert(i, control_points[i/2])
-
-        ## transform control points
-        for i in range(len(points_arr) - 1):
-            if i % 2 != 0:
-                var start_point = points_arr[i-1]
-                var control_point = points_arr[i]
-                var end_point = points_arr[i+1]
-                var start_control_point = Vector2(
-                    start_point.x + (control_point.x - start_point.x) * self.edge_random_coefficient,
-                    start_point.y + (control_point.y - start_point.y) * self.edge_random_coefficient
-                )
-                var end_control_point = Vector2(
-                    control_point.x + (end_point.x - control_point.x) * self.edge_random_coefficient,
-                    control_point.y + (end_point.y - control_point.y) * self.edge_random_coefficient
-                )
-                var final_control_point = Vector2(
-                    start_control_point.x + (end_control_point.x - start_control_point.x) * self.edge_random_coefficient,
-                    start_control_point.y + (end_control_point.y - start_control_point.y) * self.edge_random_coefficient
-                )
-                points_arr[i] = final_control_point
-
-        self.shape_points = points_arr
+            
+            var control_point1 = Vector2(randf() * self.random_size * get_random_direction(),randf() * self.random_size * get_random_direction())
+            var control_point2 = Vector2(randf() * self.random_size * get_random_direction(),randf() * self.random_size * get_random_direction())
+            curve.add_point(points_arr[i], control_point1, control_point2)
+        points_arr = curve.get_baked_points()
+    self.shape_points = points_arr
     draw_polyline(points_arr, lineColor, lineWidth, true)
-
-#func insert_control_points(points_arr):
-#    var control_points = []
-#    for i in range(len(points_arr) - 1):
-#        var start_point = points_arr[i]
-#        var end_point = points_arr[i+1]
-#        var x_diff = ((end_point.x - start_point.x) / 2)
-#        x_diff += rand_range(-x_diff, x_diff)
-#        var y_diff = ((end_point.y - start_point.y) / 2)
-#        y_diff += rand_range(-y_diff, y_diff)
-#        var control_point = Vector2(start_point.x + x_diff, start_point.y + y_diff)
-#        control_points.push_back(control_point)
-#    for i in range(len(points_arr)*2 - 1):
-#        if i % 2 != 0:
-#            points_arr.insert(i, control_points[i/2])
 
 func draw_container():
     var size = self.node_size * 2 + SPACING * 2
@@ -151,9 +106,9 @@ func set_points(value):
         self.shape_points = []
         self.update()
 
-func set_edge_random_coefficient(value):
-    if edge_random_coefficient != value:
-        edge_random_coefficient = value
+func set_random_size(value):
+    if random_size != value:
+        random_size = value
         self.shape_points = []
         self.update()
 
@@ -170,3 +125,6 @@ func is_in_mouse():
     self.get_global_mouse_position().x <= self.rect_global_position.x + self.rect_size.x and \
     self.get_global_mouse_position().y >= self.rect_global_position.y and \
     self.get_global_mouse_position().y <= self.rect_global_position.y + self.rect_size.y
+
+func get_random_direction():
+    return(1 if randf() > 0.5 else -1)

@@ -2,6 +2,7 @@ extends Control
 
 onready var ActionMenu = $CanvasLayer/ActionMenu
 onready var PropertyPanel = $CanvasLayer/PropertyPanel
+onready var MapNodeContainer = $ScrollContainer/ViewportContainer/MapNodeContainer
 var EditorNodeScene = preload("./EditorNode.tscn")
 
 func _input(event):
@@ -15,21 +16,21 @@ func _input(event):
 func _on_AddButton_pressed():
     var node = EditorNodeScene.instance()
     node.origin = Vector2(
-        get_global_mouse_position().x - node.node_size,
-        get_global_mouse_position().y - node.node_size
+        get_global_mouse_position().x + $ScrollContainer.scroll_horizontal - node.node_size,
+        get_global_mouse_position().y + $ScrollContainer.scroll_vertical - node.node_size
     )
     node.connect("on_selected", self, "_on_node_selected", [node])
-    $MapNodeContainer.add_child(node)
+    self.MapNodeContainer.add_child(node)
     self.ActionMenu.hide()
 
 func _on_DeleteButton_pressed():
-    for node in $MapNodeContainer.get_children():
+    for node in self.MapNodeContainer.get_children():
         if node.selecting:
-            $MapNodeContainer.remove_child(node)
+            self.MapNodeContainer.remove_child(node)
     self.ActionMenu.hide()
 
 func _on_RegenerateButton_pressed():
-    for node in $MapNodeContainer.get_children():
+    for node in self.MapNodeContainer.get_children():
         if node.selecting:
             node.regenerate()
     self.ActionMenu.hide()
@@ -41,7 +42,7 @@ func show_property(node):
 
 func _process(delta):
     var has_selection = false
-    for node in $MapNodeContainer.get_children():
+    for node in self.MapNodeContainer.get_children():
         if node.selecting:
             has_selection = true
     if !has_selection:
@@ -49,3 +50,18 @@ func _process(delta):
 
 func _on_node_selected(node):
     self.show_property(node)
+
+func update_preivew():
+    var screen = self.MapNodeContainer.get_viewport().get_texture().get_data()
+    screen.flip_y()
+    var buffer = screen.save_png_to_buffer()
+    var pic = Image.new()
+    pic.load_png_from_buffer(buffer)
+    pic.resize(150, 150,Image.INTERPOLATE_NEAREST)
+    var texture = ImageTexture.new()
+    texture.create_from_image(pic)
+    $CanvasLayer/Preview/Pic.texture = texture
+
+
+func _on_Timer_timeout():
+    self.update_preivew()

@@ -23,12 +23,12 @@ func _on_PointsValue_value_changed(value):
         current_node.points = value
 
 func _on_EdgeRandomValue_value_changed(value):
-    if current_node and current_node.edge_random_coefficient != value:
-        current_node.edge_random_coefficient = value
+    if current_node and current_node.random_size != value:
+        current_node.random_size = value
 
 func set_current_node(value):
     current_node = value
     $MarginContainer/GridContainer/SizeValue.value = current_node.node_size 
     $MarginContainer/GridContainer/PointsValue.value = current_node.points 
-    $MarginContainer/GridContainer/EdgeRandomValue.value = current_node.edge_random_coefficient 
+    $MarginContainer/GridContainer/RandomSizeValue.value = current_node.random_size 
 
