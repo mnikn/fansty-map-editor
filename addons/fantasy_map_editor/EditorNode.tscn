@@ -2,10 +2,13 @@
 
 [ext_resource path="res://addons/fantasy_map_editor/EditorNode.gd" type="Script" id=1]
 
-[node name="EditorNode" type="Control"]
+[node name="EditorNode" type="Button"]
 margin_right = 100.0
 margin_bottom = 100.0
 rect_min_size = Vector2( 100, 100 )
+shortcut_in_tooltip = false
+action_mode = 0
+flat = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

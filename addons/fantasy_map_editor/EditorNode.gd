@@ -1,4 +1,4 @@
-extends Control
+extends Button
 
 signal on_selected()
 
@@ -25,27 +25,28 @@ func _ready():
 	noise.lacunarity = 1.5
 	
 	self.rect_min_size = Vector2((node_size + SPACING) * 2, (node_size + SPACING) * 2)
+	self.rect_size = self.rect_min_size
 
 	
-func _input(event):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		if self.is_in_mouse():
-			self.selecting = true
-		else:
-			if self.get_parent().get_parent() != null:
-				self.selecting = false
+#func _input(event):
+#	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
+#		if self.is_in_mouse():
+#			self.selecting = true
+#		else:
+#			self.selecting = false
+				
 
-func _physics_process(delta):
-	if self.selecting and Input.is_mouse_button_pressed(BUTTON_LEFT):
-		if mouse_hold_time >= 10:
-			self.origin = Vector2(
-				get_global_mouse_position().x - self.node_size,
-				get_global_mouse_position().y - self.node_size
-			)
-		else:
-			mouse_hold_time += 1
-	else:
-		mouse_hold_time = 0
+#func _physics_process(delta):
+#	if self.selecting and Input.is_mouse_button_pressed(BUTTON_LEFT):
+#		if mouse_hold_time >= 10:
+#			self.origin = Vector2(
+#				self.get_viewport().get_mouse_position().x - self.node_size,
+#				self.get_viewport().get_mouse_position().y - self.node_size
+#			)
+#		else:
+#			mouse_hold_time += 1
+#	else:
+#		mouse_hold_time = 0
 
 func regenerate():
 	self.shape_points = []
@@ -91,6 +92,7 @@ func set_node_size(value):
 	if node_size != value:
 		node_size = value
 		self.rect_min_size = Vector2((node_size + SPACING) * 2, (node_size + SPACING) * 2)
+		self.rect_size = self.rect_min_size
 		self.shape_points = []
 		self.update()
 
@@ -115,10 +117,10 @@ func set_selecting(value):
 	selecting = value
 
 func is_in_mouse():
-	return self.get_global_mouse_position().x >= self.rect_global_position.x and \
-	self.get_global_mouse_position().x <= self.rect_global_position.x + self.rect_size.x and \
-	self.get_global_mouse_position().y >= self.rect_global_position.y and \
-	self.get_global_mouse_position().y <= self.rect_global_position.y + self.rect_size.y
+	return self.get_viewport().get_mouse_position().x >= self.rect_global_position.x and \
+	self.get_viewport().get_mouse_position().x <= self.rect_global_position.x + self.rect_size.x and \
+	self.get_viewport().get_mouse_position().y >= self.rect_global_position.y and \
+	self.get_viewport().get_mouse_position().y <= self.rect_global_position.y + self.rect_size.y
 
 func get_random_direction():
 	return(1 if randf() > 0.5 else -1)
