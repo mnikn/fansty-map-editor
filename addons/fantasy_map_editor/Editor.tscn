@@ -1,20 +1,29 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorGrid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/fantasy_map_editor/EditorPropertyPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://addons/fantasy_map_editor/EditorNode.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/fantasy_map_editor/MapContainer.gd" type="Script" id=6]
+[ext_resource path="res://addons/fantasy_map_editor/MapNodeContainer.gd" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
-[node name="Editor" type="Panel"]
+[node name="Editor" type="Container"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+margin_right = -1024.0
+margin_bottom = -600.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -47,48 +56,6 @@ margin_bottom = 32.0
 size_flags_horizontal = 0
 text = "Config"
 
-[node name="ActionMenu" type="Popup" parent="CanvasLayer"]
-margin_right = 100.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 100, 80 )
-
-[node name="Layout" type="VBoxContainer" parent="CanvasLayer/ActionMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="AddButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_right = 100.0
-margin_bottom = 20.0
-text = "Add node"
-
-[node name="DeleteButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_top = 20.0
-margin_right = 100.0
-margin_bottom = 40.0
-text = "Delete node"
-
-[node name="RegenerateButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_top = 40.0
-margin_right = 100.0
-margin_bottom = 60.0
-text = "Regenerate"
-
-[node name="ConnectButton" type="Button" parent="CanvasLayer/ActionMenu/Layout"]
-margin_top = 60.0
-margin_right = 100.0
-margin_bottom = 80.0
-text = "Connect node"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="PropertyPanel" parent="CanvasLayer" instance=ExtResource( 3 )]
 
 [node name="Preview" type="Panel" parent="CanvasLayer"]
@@ -116,36 +83,115 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ViewportContainer" type="ViewportContainer" parent="ScrollContainer"]
-margin_right = 2048.0
-margin_bottom = 1200.0
-rect_min_size = Vector2( 2048, 1200 )
+[node name="Layout" type="VBoxContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 1024, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
 
-[node name="MapNodeContainer" type="Control" parent="ScrollContainer/ViewportContainer"]
-margin_right = 2048.0
-margin_bottom = 1200.0
-rect_min_size = Vector2( 2048, 1200 )
+[node name="Layout" type="HBoxContainer" parent="Layout"]
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 1024, 600 )
+custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Grid" parent="ScrollContainer/ViewportContainer" instance=ExtResource( 2 )]
+[node name="Panel" type="Panel" parent="Layout/Layout"]
+margin_right = 400.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 600 )
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="MapContainer" type="Control" parent="Layout/Layout"]
+margin_left = 400.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 6 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="Layout/Layout/MapContainer"]
+margin_right = 2048.0
+margin_bottom = 1200.0
+rect_min_size = Vector2( 2048, 1200 )
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="Layout/Layout/MapContainer/ViewportContainer"]
+size = Vector2( 2048, 1200 )
+handle_input_locally = false
+usage = 1
+render_target_update_mode = 3
+
+[node name="MapNodeContainer" type="Panel" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
+margin_right = 2048.0
+margin_bottom = 1200.0
+rect_min_size = Vector2( 2048, 1200 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 7 )
+
+[node name="EditorNode" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/MapNodeContainer" instance=ExtResource( 5 )]
+
+[node name="Grid" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport" instance=ExtResource( 2 )]
 visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
-[connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/AddButton" to="." method="_on_AddButton_pressed"]
-[connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/DeleteButton" to="." method="_on_DeleteButton_pressed"]
-[connection signal="pressed" from="CanvasLayer/ActionMenu/Layout/RegenerateButton" to="." method="_on_RegenerateButton_pressed"]
+[node name="CanvasLayer" type="CanvasLayer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
+
+[node name="ActionMenu" type="Popup" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer"]
+margin_right = 100.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 100, 80 )
+
+[node name="Layout" type="VBoxContainer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer/ActionMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AddButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer/ActionMenu/Layout"]
+margin_right = 100.0
+margin_bottom = 20.0
+text = "Add node"
+
+[node name="DeleteButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer/ActionMenu/Layout"]
+margin_top = 20.0
+margin_right = 100.0
+margin_bottom = 40.0
+text = "Delete node"
+
+[node name="RegenerateButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer/ActionMenu/Layout"]
+margin_top = 40.0
+margin_right = 100.0
+margin_bottom = 60.0
+text = "Regenerate"
+
+[node name="ConnectButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer/ActionMenu/Layout"]
+margin_top = 60.0
+margin_right = 100.0
+margin_bottom = 80.0
+text = "Connect node"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
+anchor_mode = 0
+current = true
+limit_left = 0
+limit_top = 0
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/CanvasLayer/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer" method="_on_AddButton_pressed"]
