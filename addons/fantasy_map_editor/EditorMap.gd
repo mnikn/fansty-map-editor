@@ -1,97 +1,39 @@
-extends Container
+extends Control
 
 
 var EditorNodeScene = preload("./EditorNode.tscn")
 onready var NodeContainer = $NodeContainer
 onready var ActionMenu = $CanvasLayer/ActionMenu
-onready var MapCamera = $Camera2D
+#onready var MapCamera = get_parent().get_node("Camera2D")
 var mouse_left_hold_time = 0
 var mouse_drag_start_pos = null
 
 var selecting_node = null
 
 func _ready():
-    self.MapCamera.limit_right = self.rect_min_size.x
-    self.MapCamera.limit_bottom = self.rect_min_size.y
+	pass
 
 func _on_AddButton_pressed():
-    var node = EditorNodeScene.instance()
-    var pos = self.get_viewport().get_mouse_position()
-    pos.x *= self.MapCamera.zoom.x
-    pos.y *= self.MapCamera.zoom.y
-    node.origin = Vector2(
-        pos.x - node.node_size,
-        pos.y - node.node_size
-    )
-    node.connect("pressed", self, "_on_node_pressed", [node])
-    self.NodeContainer.add_child(node)
-    self.ActionMenu.hide()
-    self.deselect_node()
+	var node = EditorNodeScene.instance()
+	var pos = self.NodeContainer.get_viewport().get_mouse_position()
+	node.origin = Vector2(
+		pos.x + self.NodeContainer.scroll_offset.x - node.node_size,
+		pos.y + self.NodeContainer.scroll_offset.y - node.node_size
+	)
+	node.connect("pressed", self, "_on_node_pressed", [node])
+	self.NodeContainer.add_child(node)
+	self.ActionMenu.hide()
 
 func _on_DeleteButton_pressed():
-    self.NodeContainer.remove_child(self.selecting_node)
-    self.ActionMenu.hide()
-    self.deselect_node()
+	self.NodeContainer.remove_child(self.selecting_node)
+	self.ActionMenu.hide()
 
 func _on_RegenerateButton_pressed():
-    if self.selecting_node != null:
-        self.selecting_node.regenerate()
-    self.ActionMenu.hide()
+	if self.selecting_node != null:
+		self.selecting_node.regenerate()
+	self.ActionMenu.hide()
 
-func _on_NodeContainer_on_mouse_event(event):
-    if event.button_index == BUTTON_RIGHT and event.pressed:
-        var pos = self.get_viewport().get_mouse_position()
-#        pos.x *= self.MapCamera.zoom.x
-#        pos.y *= self.MapCamera.zoom.y
-        
-        pos.x -= self.ActionMenu.rect_min_size.x / 2
-        pos.y -= self.ActionMenu.rect_min_size.y / 2 - 20
-        self.ActionMenu.popup(Rect2(pos, self.ActionMenu.rect_min_size))
-    elif event.button_index == BUTTON_WHEEL_UP:
-        print_debug(event)
-#    elif (event as InputEventMouseButton).
-        
-func _on_NodeContainer_on_gui_input(event):
-    if event is InputEventMouseButton:
-        if self.selecting_node != null:
-            self.selecting_node.selecting = false
-            self.selecting_node = null
-
-func _physics_process(delta):
-    if self.ActionMenu.visible:
-        return
-    if Input.is_mouse_button_pressed(BUTTON_LEFT):
-        var mouse_pos = self.get_viewport().get_mouse_position()
-        if self.mouse_left_hold_time >= 10:
-            if self.selecting_node != null:
-                var pos = self.get_global_mouse_position()
-#                pos.x *= self.MapCamera.zoom.x
-#                pos.y *= self.MapCamera.zoom.y
-                self.selecting_node.origin = Vector2(
-                    pos.x - self.selecting_node.node_size,
-                    pos.y - self.selecting_node.node_size
-                )
-            elif self.mouse_drag_start_pos.x != mouse_pos.x || self.mouse_drag_start_pos.y != mouse_pos.y:
-                print_debug("ass")
-                self.MapCamera.position = Vector2(
-                    self.MapCamera.position.x + self.mouse_drag_start_pos.x - mouse_pos.x,
-                    self.MapCamera.position.y + self.mouse_drag_start_pos.y - mouse_pos.y
-                )	
-                self.mouse_drag_start_pos = mouse_pos
-        else:
-            self.mouse_left_hold_time += 1
-            self.mouse_drag_start_pos = mouse_pos
-    else:
-        self.mouse_left_hold_time = 0
-        
-
-func _on_node_pressed(node):
-    if self.selecting_node != null:
-        self.selecting_node.selecting = false
-    self.selecting_node = node
-    self.selecting_node.selecting = true
-
-func deselect_node():
-    if self.selecting_node != null:
-        self.selecting_node.selecting = false
-    self.selecting_node = null
+func _on_NodeContainer_popup_request(position):
+	position.x -= self.ActionMenu.rect_min_size.x / 2
+	position.y -= self.ActionMenu.rect_min_size.y / 2 - 20
+	self.ActionMenu.popup(Rect2(position, self.ActionMenu.rect_min_size))

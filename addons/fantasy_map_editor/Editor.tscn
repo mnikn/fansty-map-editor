@@ -1,13 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
-[ext_resource path="res://addons/fantasy_map_editor/EditorGrid.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/fantasy_map_editor/EditorPropertyPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
-[ext_resource path="res://addons/fantasy_map_editor/MapNodeContainer.gd" type="Script" id=7]
-
-[sub_resource type="StyleBoxFlat" id=1]
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -84,16 +80,17 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1024, 600 )
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Layout" type="HBoxContainer" parent="Layout"]
 margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 1024, 600 )
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -112,7 +109,6 @@ size_flags_vertical = 3
 margin_left = 400.0
 margin_right = 1024.0
 margin_bottom = 600.0
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -132,27 +128,17 @@ handle_input_locally = false
 usage = 1
 render_target_update_mode = 3
 
-[node name="Map" type="Container" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
+[node name="Map" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
 margin_right = 40.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 2048, 1200 )
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
 
-[node name="NodeContainer" type="Panel" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
-margin_right = 2048.0
-margin_bottom = 1200.0
+[node name="NodeContainer" type="GraphEdit" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
 rect_min_size = Vector2( 2048, 1200 )
-rect_clip_content = true
-custom_styles/panel = SubResource( 1 )
-script = ExtResource( 7 )
-
-[node name="Grid" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" instance=ExtResource( 2 )]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
+snap_distance = 16
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
 
@@ -197,16 +183,8 @@ text = "Connect node"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Camera2D" type="Camera2D" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
-anchor_mode = 0
-current = true
-limit_left = 0
-limit_top = 0
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
-[connection signal="gui_input" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" method="_on_NodeContainer_gui_input"]
-[connection signal="on_gui_input" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_on_gui_input"]
-[connection signal="on_mouse_event" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_on_mouse_event"]
+[connection signal="popup_request" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_popup_request"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_AddButton_pressed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/DeleteButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/RegenerateButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_RegenerateButton_pressed"]
