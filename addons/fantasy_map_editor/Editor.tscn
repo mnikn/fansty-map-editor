@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorPropertyPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.266667, 0.266667, 0.266667, 0.752941 )
 
 [node name="Editor" type="Control"]
 anchor_right = 1.0
@@ -98,12 +101,257 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="Layout/Layout"]
+[node name="SettingPanel" type="Panel" parent="Layout/Layout"]
 margin_right = 400.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 400, 600 )
 size_flags_horizontal = 0
 size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Layout/Layout/SettingPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Layout" type="VBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 390.0
+margin_bottom = 590.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="PanelContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout"]
+margin_right = 380.0
+margin_bottom = 34.0
+
+[node name="Layout" type="HBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/Menu"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 373.0
+margin_bottom = 27.0
+alignment = 1
+
+[node name="FileOpen" type="Button" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/Menu/Layout"]
+margin_left = 137.0
+margin_right = 184.0
+margin_bottom = 20.0
+text = "Oepn"
+
+[node name="FileSave" type="Button" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/Menu/Layout"]
+margin_left = 188.0
+margin_right = 229.0
+margin_bottom = 20.0
+text = "Save"
+
+[node name="NodeSetting" type="PanelContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout"]
+margin_top = 38.0
+margin_right = 380.0
+margin_bottom = 202.0
+
+[node name="Layout" type="VBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 373.0
+margin_bottom = 157.0
+
+[node name="Title" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout"]
+margin_right = 366.0
+margin_bottom = 14.0
+text = "Node Setting"
+align = 1
+valign = 1
+
+[node name="Layout" type="GridContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout"]
+margin_top = 18.0
+margin_right = 366.0
+margin_bottom = 150.0
+columns = 2
+
+[node name="SizeLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_top = 5.0
+margin_right = 181.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Size"
+align = 1
+
+[node name="SizeValue" type="SpinBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_left = 185.0
+margin_right = 366.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 10.0
+max_value = 200.0
+value = 10.0
+rounded = true
+align = 1
+
+[node name="PointsLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_top = 33.0
+margin_right = 181.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Points"
+align = 1
+
+[node name="PointsValue" type="SpinBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_left = 185.0
+margin_top = 28.0
+margin_right = 366.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 5.0
+value = 5.0
+rounded = true
+align = 1
+
+[node name="RandomSizeLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_top = 61.0
+margin_right = 181.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Random size"
+align = 1
+
+[node name="RandomSizeValue" type="SpinBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_left = 185.0
+margin_top = 56.0
+margin_right = 366.0
+margin_bottom = 80.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 5.0
+max_value = 50.0
+value = 5.0
+rounded = true
+align = 1
+
+[node name="SoildLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_top = 89.0
+margin_right = 181.0
+margin_bottom = 103.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Soild"
+align = 1
+
+[node name="SoildValue" type="CheckBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_left = 263.0
+margin_top = 84.0
+margin_right = 287.0
+margin_bottom = 108.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+align = 1
+
+[node name="SoildColorLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_top = 115.0
+margin_right = 181.0
+margin_bottom = 129.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Soild color"
+align = 1
+
+[node name="SoildColorValue" type="ColorPickerButton" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout"]
+margin_left = 185.0
+margin_top = 112.0
+margin_right = 366.0
+margin_bottom = 132.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="GeneralSetting" type="PanelContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout"]
+margin_top = 206.0
+margin_right = 380.0
+margin_bottom = 310.0
+
+[node name="Layout" type="VBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 373.0
+margin_bottom = 97.0
+
+[node name="Title" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout"]
+margin_right = 366.0
+margin_bottom = 14.0
+text = "General Setting"
+align = 1
+valign = 1
+
+[node name="Layout" type="GridContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout"]
+margin_top = 18.0
+margin_right = 366.0
+margin_bottom = 90.0
+columns = 2
+
+[node name="LineWidthLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_top = 5.0
+margin_right = 181.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Line width"
+align = 1
+
+[node name="LineWidthValue" type="SpinBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_left = 185.0
+margin_right = 366.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 1.0
+max_value = 30.0
+value = 2.0
+rounded = true
+align = 1
+
+[node name="LineColorLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_top = 31.0
+margin_right = 181.0
+margin_bottom = 45.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Line color"
+align = 1
+
+[node name="LineColorValue" type="ColorPickerButton" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_left = 185.0
+margin_top = 28.0
+margin_right = 366.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MapBgLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_top = 55.0
+margin_right = 181.0
+margin_bottom = 69.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Map background color"
+align = 1
+
+[node name="MapBgValue" type="ColorPickerButton" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_left = 185.0
+margin_top = 52.0
+margin_right = 366.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
 
 [node name="MapContainer" type="Control" parent="Layout/Layout"]
 margin_left = 400.0
@@ -138,6 +386,7 @@ script = ExtResource( 5 )
 
 [node name="NodeContainer" type="GraphEdit" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
 rect_min_size = Vector2( 2048, 1200 )
+custom_styles/bg = SubResource( 1 )
 snap_distance = 16
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
@@ -184,6 +433,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SizeValue" to="." method="_on_SizeValue_value_changed"]
+[connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/PointsValue" to="." method="_on_PointsValue_value_changed"]
+[connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/RandomSizeValue" to="." method="_on_RandomSizeValue_value_changed"]
+[connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineWidthValue" to="." method="_on_LineWidthValue_value_changed"]
+[connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineColorValue" to="." method="_on_LineColorValue_color_changed"]
+[connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue" to="." method="_on_MapBgValue_color_changed"]
+[connection signal="gui_input" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_gui_input"]
+[connection signal="node_selected" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_node_selected"]
 [connection signal="popup_request" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_popup_request"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_AddButton_pressed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/DeleteButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_DeleteButton_pressed"]

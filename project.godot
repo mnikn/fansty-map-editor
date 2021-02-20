@@ -18,6 +18,11 @@ _global_script_class_icons={
 config/name="FantasyMapEditor"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
 [input]
 
 ui_drag={
