@@ -9,11 +9,9 @@
 
 [sub_resource type="StyleBoxFlat" id=1]
 
-[node name="Editor" type="Container"]
+[node name="Editor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1024.0
-margin_bottom = -600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 1 )
@@ -83,8 +81,8 @@ __meta__ = {
 }
 
 [node name="Layout" type="VBoxContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 600.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_min_size = Vector2( 1024, 600 )
 rect_clip_content = true
 size_flags_horizontal = 3
@@ -96,6 +94,8 @@ margin_right = 1024.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 1024, 600 )
 rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -135,6 +135,8 @@ render_target_update_mode = 3
 [node name="Map" type="Container" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
 margin_right = 40.0
 margin_bottom = 40.0
+rect_min_size = Vector2( 2048, 1200 )
+rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
@@ -143,6 +145,7 @@ script = ExtResource( 5 )
 margin_right = 2048.0
 margin_bottom = 1200.0
 rect_min_size = Vector2( 2048, 1200 )
+rect_clip_content = true
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 7 )
 
