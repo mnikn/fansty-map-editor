@@ -353,7 +353,7 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 min_value = 600.0
 max_value = 1920.0
-value = 600.0
+value = 640.0
 rounded = true
 
 [node name="GridSnapLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
