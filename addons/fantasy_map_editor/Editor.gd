@@ -11,6 +11,7 @@ func _ready():
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineWidthValue.value = self.Map.config_line_width
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width.value = self.Map.config_map_size.x
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height.value = self.Map.config_map_size.y
+    $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/GridSnapValue.pressed =  self.Map.NodeContainer.use_snap
 
 func _process(delta):
     if self.Map.selecting_node != null:
@@ -67,3 +68,6 @@ func _on_Height_value_changed(value):
     self.Map.config_map_size.y = value    
 #    self.MapNodeContainer.rect_min_size.y = value
 #    self.MapNodeContainer.rect_size = self.MapNodeContainer.rect_min_size
+
+func _on_GridSnapValue_toggled(button_pressed):
+    self.Map.NodeContainer.use_snap = button_pressed

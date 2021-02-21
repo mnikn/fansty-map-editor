@@ -23,7 +23,6 @@ __meta__ = {
 [node name="Layout" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_min_size = Vector2( 1024, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -54,8 +53,7 @@ __meta__ = {
 
 [node name="Layout" type="HBoxContainer" parent="Layout"]
 margin_right = 1024.0
-margin_bottom = 644.0
-rect_min_size = Vector2( 1024, 600 )
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -65,8 +63,8 @@ __meta__ = {
 
 [node name="SettingPanel" type="Panel" parent="Layout/Layout"]
 margin_right = 400.0
-margin_bottom = 644.0
-rect_min_size = Vector2( 400, 600 )
+margin_bottom = 600.0
+rect_min_size = Vector2( 400, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 3
 
@@ -85,7 +83,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 390.0
-margin_bottom = 634.0
+margin_bottom = 590.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -239,13 +237,13 @@ size_flags_vertical = 0
 [node name="GeneralSetting" type="PanelContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout"]
 margin_top = 206.0
 margin_right = 380.0
-margin_bottom = 338.0
+margin_bottom = 366.0
 
 [node name="Layout" type="VBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 373.0
-margin_bottom = 125.0
+margin_bottom = 153.0
 
 [node name="Title" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout"]
 margin_right = 366.0
@@ -257,7 +255,7 @@ valign = 1
 [node name="Layout" type="GridContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout"]
 margin_top = 18.0
 margin_right = 366.0
-margin_bottom = 118.0
+margin_bottom = 146.0
 columns = 2
 
 [node name="LineWidthLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
@@ -358,10 +356,28 @@ max_value = 1920.0
 value = 600.0
 rounded = true
 
+[node name="GridSnapLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_top = 109.0
+margin_right = 181.0
+margin_bottom = 123.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Grid snap"
+align = 1
+
+[node name="GridSnapValue" type="CheckBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_left = 263.0
+margin_top = 104.0
+margin_right = 287.0
+margin_bottom = 128.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+align = 1
+
 [node name="MapContainer" type="Control" parent="Layout/Layout"]
 margin_left = 400.0
 margin_right = 1024.0
-margin_bottom = 644.0
+margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
@@ -377,7 +393,7 @@ __meta__ = {
 }
 
 [node name="Viewport" type="Viewport" parent="Layout/Layout/MapContainer/ViewportContainer"]
-size = Vector2( 624, 644 )
+size = Vector2( 624, 600 )
 transparent_bg = true
 handle_input_locally = false
 usage = 1
@@ -391,7 +407,6 @@ script = ExtResource( 5 )
 
 [node name="NodeContainer" type="GraphEdit" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
 rect_min_size = Vector2( 624, 604 )
-rect_clip_content = false
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/bg = SubResource( 1 )
@@ -447,8 +462,9 @@ __meta__ = {
 [node name="Preview" type="ViewportContainer" parent="Layout/Layout/MapContainer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -150.0
+margin_top = -160.0
 margin_right = 150.0
+margin_bottom = -10.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -477,6 +493,7 @@ zoom = Vector2( 5, 5 )
 [connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue" to="." method="_on_MapBgValue_color_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width" to="." method="_on_Width_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height" to="." method="_on_Height_value_changed"]
+[connection signal="toggled" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/GridSnapValue" to="." method="_on_GridSnapValue_toggled"]
 [connection signal="popup_request" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_popup_request"]
 [connection signal="scroll_offset_changed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_scroll_offset_changed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_AddButton_pressed"]

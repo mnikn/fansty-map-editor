@@ -27,7 +27,7 @@ func _on_AddButton_pressed():
     node.node_size = self.config_size
     node.line_color = self.config_line_color
     node.line_width = self.config_line_width
-#    node.connect("raise_request", self, "_on_node_pressed", [node])
+    node.connect("dragged", self, "_on_node_dragged", [node])
     self.NodeContainer.add_child(node)
     self.ActionMenu.hide()
 
@@ -52,7 +52,11 @@ func _process(delta):
             selected_node = child
     self.selecting_node = selected_node
 
+func _on_node_dragged(from, to, node):
+    pass
+#    node.offset.x = clamp(to.x, -INF, self.config_map_size.x)
+#    node.offset.y = clamp(to.y, -INF, self.config_map_size.y)
 
 func _on_NodeContainer_scroll_offset_changed(ofs):
-    self.NodeContainer.scroll_offset.x = clamp(ofs.x, 0, self.config_map_size.x - self.NodeContainer.rect_min_size.x)
-    self.NodeContainer.scroll_offset.y = clamp(ofs.y, 0, self.config_map_size.y - self.NodeContainer.rect_min_size.y)
+    self.NodeContainer.scroll_offset.x = clamp(ofs.x, 0, self.config_map_size.x - self.NodeContainer.rect_size.x + 30)
+    self.NodeContainer.scroll_offset.y = clamp(ofs.y, 0, self.config_map_size.y - self.NodeContainer.rect_size.y + 200)
