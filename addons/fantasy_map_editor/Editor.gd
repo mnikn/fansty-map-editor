@@ -9,25 +9,8 @@ func _ready():
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue.color = self.MapNodeContainer.get("custom_styles/bg").bg_color
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineColorValue.color = self.Map.config_line_color
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineWidthValue.value = self.Map.config_line_width
-
-func show_property(node):
-    self.PropertyPanel.current_node = node
-    self.PropertyPanel.popup()
-
-func update_preivew():
-    var screen = self.MapNodeContainer.get_viewport().get_texture().get_data()
-    screen.flip_y()
-    var buffer = screen.save_png_to_buffer()
-    var pic = Image.new()
-    pic.load_png_from_buffer(buffer)
-    pic.resize(150, 150,Image.INTERPOLATE_NEAREST)
-    var texture = ImageTexture.new()
-    texture.create_from_image(pic)
-    $CanvasLayer/Preview/Pic.texture = texture
-
-
-func _on_Timer_timeout():
-    self.update_preivew()
+    $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width.value = self.Map.config_map_size.x
+    $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height.value = self.Map.config_map_size.y
 
 func _process(delta):
     if self.Map.selecting_node != null:
@@ -37,6 +20,9 @@ func _process(delta):
         $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/PointsValue.value = self.Map.selecting_node.points
     else:
         $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting.visible = false
+    
+    var format_str = "NodeContainer scroll offset: %sx%s"
+    $Layout/DebugPanel/Layout/NodeConatinerInfo.text = format_str % [self.MapNodeContainer.scroll_offset.x, self.MapNodeContainer.scroll_offset.y]
 
 func _on_SizeValue_value_changed(value):
     self.Map.config_size = value
@@ -70,3 +56,14 @@ func _on_MapBgValue_color_changed(color):
     var bg = StyleBoxFlat.new()
     bg.bg_color = color
     self.MapNodeContainer.set("custom_styles/bg", bg)
+
+
+func _on_Width_value_changed(value):
+    self.Map.config_map_size.x = value
+#    self.MapNodeContainer.rect_min_size.x = value
+#    self.MapNodeContainer.rect_size = self.MapNodeContainer.rect_min_size
+
+func _on_Height_value_changed(value):
+    self.Map.config_map_size.y = value    
+#    self.MapNodeContainer.rect_min_size.y = value
+#    self.MapNodeContainer.rect_size = self.MapNodeContainer.rect_min_size

@@ -8,6 +8,7 @@ var config_line_width = 1
 var config_points = 20
 var config_size = 50
 var config_random_size = 10
+var config_map_size = Vector2(2048, 1200)
 
 var selecting_node = null
 
@@ -50,3 +51,8 @@ func _process(delta):
         if child is GraphNode and child.selected:
             selected_node = child
     self.selecting_node = selected_node
+
+
+func _on_NodeContainer_scroll_offset_changed(ofs):
+    self.NodeContainer.scroll_offset.x = clamp(ofs.x, 0, self.config_map_size.x - self.NodeContainer.rect_min_size.x)
+    self.NodeContainer.scroll_offset.y = clamp(ofs.y, 0, self.config_map_size.y - self.NodeContainer.rect_min_size.y)

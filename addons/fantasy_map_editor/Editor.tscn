@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMapContainer.gd" type="Script" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -21,75 +20,41 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="TopMenu" type="Panel" parent="CanvasLayer"]
-visible = false
-anchor_right = 1.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 0, 32 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Layout" type="HBoxContainer" parent="CanvasLayer/TopMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="FileButton" type="MenuButton" parent="CanvasLayer/TopMenu/Layout"]
-margin_right = 35.0
-margin_bottom = 32.0
-size_flags_horizontal = 0
-text = "File"
-
-[node name="Config" type="MenuButton" parent="CanvasLayer/TopMenu/Layout"]
-margin_left = 39.0
-margin_right = 90.0
-margin_bottom = 32.0
-size_flags_horizontal = 0
-text = "Config"
-
-[node name="Preview" type="Panel" parent="CanvasLayer"]
-anchor_top = 0.98
-anchor_bottom = 0.98
-margin_top = -150.0
-margin_right = 150.0
-rect_min_size = Vector2( 150, 150 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Pic" type="TextureRect" parent="CanvasLayer/Preview"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 3.0
-margin_top = 3.0
-margin_right = -3.0
-margin_bottom = -3.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource( 4 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Layout" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 1024, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugPanel" type="PanelContainer" parent="Layout"]
+visible = false
+margin_right = 1024.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="Layout" type="HBoxContainer" parent="Layout/DebugPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NodeConatinerInfo" type="Label" parent="Layout/DebugPanel/Layout"]
+margin_top = 6.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Layout" type="HBoxContainer" parent="Layout"]
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 644.0
 rect_min_size = Vector2( 1024, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -100,7 +65,7 @@ __meta__ = {
 
 [node name="SettingPanel" type="Panel" parent="Layout/Layout"]
 margin_right = 400.0
-margin_bottom = 600.0
+margin_bottom = 644.0
 rect_min_size = Vector2( 400, 600 )
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -120,7 +85,7 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 390.0
-margin_bottom = 590.0
+margin_bottom = 634.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -274,13 +239,13 @@ size_flags_vertical = 0
 [node name="GeneralSetting" type="PanelContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout"]
 margin_top = 206.0
 margin_right = 380.0
-margin_bottom = 310.0
+margin_bottom = 338.0
 
 [node name="Layout" type="VBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 373.0
-margin_bottom = 97.0
+margin_bottom = 125.0
 
 [node name="Title" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout"]
 margin_right = 366.0
@@ -292,7 +257,7 @@ valign = 1
 [node name="Layout" type="GridContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout"]
 margin_top = 18.0
 margin_right = 366.0
-margin_bottom = 90.0
+margin_bottom = 118.0
 columns = 2
 
 [node name="LineWidthLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
@@ -350,44 +315,92 @@ margin_bottom = 72.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
+[node name="MapSizeLabel" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_top = 81.0
+margin_right = 181.0
+margin_bottom = 95.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Map Size"
+align = 1
+
+[node name="MapSizeValue" type="HBoxContainer" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout"]
+margin_left = 185.0
+margin_top = 76.0
+margin_right = 366.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Width" type="SpinBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue"]
+margin_right = 82.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = 600.0
+max_value = 2560.0
+value = 600.0
+rounded = true
+
+[node name="Label" type="Label" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue"]
+margin_left = 86.0
+margin_top = 5.0
+margin_right = 94.0
+margin_bottom = 19.0
+text = "X"
+
+[node name="Height" type="SpinBox" parent="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue"]
+margin_left = 98.0
+margin_right = 181.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = 600.0
+max_value = 1920.0
+value = 600.0
+rounded = true
+
 [node name="MapContainer" type="Control" parent="Layout/Layout"]
 margin_left = 400.0
 margin_right = 1024.0
-margin_bottom = 600.0
+margin_bottom = 644.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 2 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="Layout/Layout/MapContainer"]
-margin_right = 2048.0
-margin_bottom = 1200.0
-rect_min_size = Vector2( 2048, 1200 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 stretch = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Viewport" type="Viewport" parent="Layout/Layout/MapContainer/ViewportContainer"]
-size = Vector2( 2048, 1200 )
+size = Vector2( 624, 644 )
 transparent_bg = true
 handle_input_locally = false
 usage = 1
 render_target_update_mode = 3
 
 [node name="Map" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport"]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 2048, 1200 )
+rect_min_size = Vector2( 624, 604 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 5 )
 
 [node name="NodeContainer" type="GraphEdit" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
-rect_min_size = Vector2( 2048, 1200 )
+rect_min_size = Vector2( 624, 604 )
+rect_clip_content = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_styles/bg = SubResource( 1 )
+right_disconnects = true
 snap_distance = 16
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
+[node name="CanvasLayer" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
+margin_top = 4.0
+margin_bottom = 4.0
 
 [node name="ActionMenu" type="Popup" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer"]
 margin_right = 100.0
@@ -456,16 +469,16 @@ custom_styles/panel = SubResource( 2 )
 anchor_mode = 0
 current = true
 zoom = Vector2( 5, 5 )
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SizeValue" to="." method="_on_SizeValue_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/PointsValue" to="." method="_on_PointsValue_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/RandomSizeValue" to="." method="_on_RandomSizeValue_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineWidthValue" to="." method="_on_LineWidthValue_value_changed"]
 [connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineColorValue" to="." method="_on_LineColorValue_color_changed"]
 [connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue" to="." method="_on_MapBgValue_color_changed"]
-[connection signal="gui_input" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_gui_input"]
-[connection signal="node_selected" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_node_selected"]
+[connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width" to="." method="_on_Width_value_changed"]
+[connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height" to="." method="_on_Height_value_changed"]
 [connection signal="popup_request" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_popup_request"]
+[connection signal="scroll_offset_changed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_scroll_offset_changed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_AddButton_pressed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/DeleteButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/RegenerateButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_RegenerateButton_pressed"]
