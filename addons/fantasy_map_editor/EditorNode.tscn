@@ -32,6 +32,8 @@ custom_styles/breakpoint = SubResource( 7 )
 custom_styles/defaultframe = SubResource( 8 )
 script = ExtResource( 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 origin = Vector2( 200, 100 )
+[connection signal="raise_request" from="." to="." method="_on_EditorNode_raise_request"]

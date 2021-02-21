@@ -26,6 +26,7 @@ func _ready():
     
     self.rect_min_size = Vector2((node_size + SPACING) * 2, (node_size + SPACING) * 2)
     self.rect_size = self.rect_min_size
+#    self.set_slot(0, true, true, Color.)
 
 func regenerate():
     self.shape_points = []

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMapContainer.gd" type="Script" id=2]
+[ext_resource path="res://addons/fantasy_map_editor/EditorNode.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -412,6 +413,13 @@ size_flags_vertical = 3
 custom_styles/bg = SubResource( 1 )
 right_disconnects = true
 snap_distance = 16
+
+[node name="EditorNode" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" instance=ExtResource( 3 )]
+mouse_filter = 1
+
+[node name="EditorNode2" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" instance=ExtResource( 3 )]
+mouse_filter = 1
+origin = Vector2( 400, 200 )
 
 [node name="CanvasLayer" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
 margin_top = 4.0
