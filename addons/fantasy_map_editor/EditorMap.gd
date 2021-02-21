@@ -9,6 +9,8 @@ var config_points = 20
 var config_size = 50
 var config_random_size = 10
 var config_map_size = Vector2(2048, 1200)
+var config_solid = true
+var config_solid_color = Color("#fff")
 
 var selecting_node = null
 
@@ -27,6 +29,8 @@ func _on_AddButton_pressed():
     node.node_size = self.config_size
     node.line_color = self.config_line_color
     node.line_width = self.config_line_width
+    node.solid = self.config_solid
+    node.solid_color = self.config_solid_color
     node.connect("dragged", self, "_on_node_dragged", [node])
     self.NodeContainer.add_child(node)
     self.ActionMenu.hide()

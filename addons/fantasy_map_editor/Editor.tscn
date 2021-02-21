@@ -488,6 +488,8 @@ zoom = Vector2( 5, 5 )
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SizeValue" to="." method="_on_SizeValue_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/PointsValue" to="." method="_on_PointsValue_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/RandomSizeValue" to="." method="_on_RandomSizeValue_value_changed"]
+[connection signal="toggled" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildValue" to="." method="_on_SoildValue_toggled"]
+[connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildColorValue" to="." method="_on_SoildColorValue_color_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineWidthValue" to="." method="_on_LineWidthValue_value_changed"]
 [connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineColorValue" to="." method="_on_LineColorValue_color_changed"]
 [connection signal="color_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue" to="." method="_on_MapBgValue_color_changed"]

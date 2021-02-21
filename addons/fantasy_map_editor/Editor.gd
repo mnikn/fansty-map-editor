@@ -12,6 +12,8 @@ func _ready():
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width.value = self.Map.config_map_size.x
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height.value = self.Map.config_map_size.y
     $Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/GridSnapValue.pressed =  self.Map.NodeContainer.use_snap
+    $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildValue.pressed = self.Map.config_solid
+    $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildColorValue.color = self.Map.config_solid_color
 
 func _process(delta):
     if self.Map.selecting_node != null:
@@ -19,6 +21,8 @@ func _process(delta):
         $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/RandomSizeValue.value = self.Map.selecting_node.random_size
         $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SizeValue.value = self.Map.selecting_node.node_size
         $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/PointsValue.value = self.Map.selecting_node.points
+        $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildValue.pressed = self.Map.selecting_node.solid
+        $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildColorValue.color = self.Map.selecting_node.solid_color
     else:
         $Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting.visible = false
     
@@ -71,3 +75,16 @@ func _on_Height_value_changed(value):
 
 func _on_GridSnapValue_toggled(button_pressed):
     self.Map.NodeContainer.use_snap = button_pressed
+
+
+func _on_SoildValue_toggled(button_pressed):
+    self.Map.config_solid = button_pressed
+    var node = self.Map.selecting_node
+    if node != null:
+        node.solid = button_pressed
+
+func _on_SoildColorValue_color_changed(color):
+    self.Map.config_solid_color = color
+    var node = self.Map.selecting_node
+    if node != null:
+        node.solid_color = color

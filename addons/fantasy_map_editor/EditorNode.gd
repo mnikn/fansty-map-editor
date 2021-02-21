@@ -8,6 +8,8 @@ export var line_width = 2 setget set_line_width
 export var line_color = Color.black setget set_line_color
 export var points = 20 setget set_points
 export var random_size = 10 setget set_random_size
+export var solid = false setget set_solid
+export var solid_color = Color("#fff") setget set_solid_color
 
 const SPACING = 10
 var noise = OpenSimplexNoise.new()
@@ -52,7 +54,9 @@ func draw_node():
             curve.add_point(points_arr[i], control_point1, control_point2)
         points_arr = curve.get_baked_points()
     self.shape_points = points_arr
-    draw_polyline(points_arr, line_color, line_width, true)
+    if self.solid:
+        draw_colored_polygon(points_arr, self.solid_color)
+    draw_polyline(points_arr, self.line_color, self.line_width, true)
 
 func draw_container():
     var size = self.node_size * 2 + SPACING * 2
@@ -99,6 +103,16 @@ func set_line_color(value):
     if line_color != value:
         line_color = value
         self.update()        
+
+func set_solid(value):
+    if solid != value:
+        solid = value;
+        self.update()
+
+func set_solid_color(value):
+    if solid_color != value:
+        solid_color = value;
+        self.update()
 
 func get_random_direction():
     return(1 if randf() > 0.5 else -1)
