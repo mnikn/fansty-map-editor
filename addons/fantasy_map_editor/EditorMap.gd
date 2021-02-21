@@ -3,9 +3,11 @@ extends Control
 var EditorNodeScene = preload("./EditorNode.tscn")
 onready var NodeContainer = $NodeContainer
 onready var ActionMenu = $CanvasLayer/ActionMenu
-#onready var MapCamera = get_parent().get_node("Camera2D")
-var mouse_left_hold_time = 0
-var mouse_drag_start_pos = null
+var config_line_color = Color("#000")
+var config_line_width = 1
+var config_points = 20
+var config_size = 50
+var config_random_size = 10
 
 var selecting_node = null
 
@@ -19,6 +21,11 @@ func _on_AddButton_pressed():
         (pos.x + self.NodeContainer.scroll_offset.x / self.NodeContainer.zoom) - node.node_size,
         (pos.y + self.NodeContainer.scroll_offset.y / self.NodeContainer.zoom) - node.node_size
     )
+    node.random_size = self.config_random_size
+    node.points = self.config_points
+    node.node_size = self.config_size
+    node.line_color = self.config_line_color
+    node.line_width = self.config_line_width
 #    node.connect("raise_request", self, "_on_node_pressed", [node])
     self.NodeContainer.add_child(node)
     self.ActionMenu.hide()

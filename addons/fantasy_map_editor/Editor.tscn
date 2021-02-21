@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
-[ext_resource path="res://addons/fantasy_map_editor/EditorPropertyPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/fantasy_map_editor/EditorMapContainer.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=4]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
 
@@ -52,8 +52,6 @@ margin_bottom = 32.0
 size_flags_horizontal = 0
 text = "Config"
 
-[node name="PropertyPanel" parent="CanvasLayer" instance=ExtResource( 3 )]
-
 [node name="Preview" type="Panel" parent="CanvasLayer"]
 anchor_top = 0.98
 anchor_bottom = 0.98
@@ -85,10 +83,6 @@ anchor_bottom = 1.0
 rect_min_size = Vector2( 1024, 600 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/separation = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Layout" type="HBoxContainer" parent="Layout"]
 margin_right = 1024.0
@@ -359,6 +353,7 @@ margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource( 2 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="Layout/Layout/MapContainer"]
 margin_right = 2048.0
@@ -432,6 +427,30 @@ text = "Connect node"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Preview" type="ViewportContainer" parent="Layout/Layout/MapContainer"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -150.0
+margin_right = 150.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="Layout/Layout/MapContainer/Preview"]
+size = Vector2( 150, 150 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Container" type="Panel" parent="Layout/Layout/MapContainer/Preview/Viewport"]
+margin_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Camera2D" type="Camera2D" parent="Layout/Layout/MapContainer/Preview/Viewport"]
+anchor_mode = 0
+current = true
+zoom = Vector2( 5, 5 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SizeValue" to="." method="_on_SizeValue_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/PointsValue" to="." method="_on_PointsValue_value_changed"]

@@ -68,6 +68,7 @@ func draw_container():
 func set_origin(value):
     origin = value
     self.offset = origin
+    self.rect_position = origin
 
 func set_node_size(value):
     if node_size != value:
