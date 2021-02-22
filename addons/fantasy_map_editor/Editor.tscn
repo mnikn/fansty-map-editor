@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/fantasy_map_editor/Editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMapContainer.gd" type="Script" id=2]
 [ext_resource path="res://addons/fantasy_map_editor/EditorNode.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
+[ext_resource path="res://addons/fantasy_map_editor/EditorConnectionPreview.gd" type="Script" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.266667, 0.266667, 0.266667, 0.752941 )
@@ -414,23 +415,23 @@ custom_styles/bg = SubResource( 1 )
 right_disconnects = true
 snap_distance = 16
 
-[node name="EditorNode" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" instance=ExtResource( 3 )]
+[node name="1" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" instance=ExtResource( 3 )]
 mouse_filter = 1
 
-[node name="EditorNode2" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" instance=ExtResource( 3 )]
+[node name="2" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" instance=ExtResource( 3 )]
 mouse_filter = 1
 origin = Vector2( 400, 200 )
 
-[node name="CanvasLayer" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
+[node name="UI" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map"]
 margin_top = 4.0
 margin_bottom = 4.0
 
-[node name="ActionMenu" type="Popup" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer"]
+[node name="ActionMenu" type="Popup" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI"]
 margin_right = 100.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 100, 80 )
 
-[node name="Layout" type="VBoxContainer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu"]
+[node name="Layout" type="VBoxContainer" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -441,24 +442,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="AddButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout"]
+[node name="AddButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout"]
 margin_right = 100.0
 margin_bottom = 20.0
 text = "Add node"
 
-[node name="DeleteButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout"]
+[node name="DeleteButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout"]
 margin_top = 20.0
 margin_right = 100.0
 margin_bottom = 40.0
 text = "Delete node"
 
-[node name="RegenerateButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout"]
+[node name="RegenerateButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout"]
 margin_top = 40.0
 margin_right = 100.0
 margin_bottom = 60.0
 text = "Regenerate"
 
-[node name="ConnectButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout"]
+[node name="ConnectButton" type="Button" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout"]
 margin_top = 60.0
 margin_right = 100.0
 margin_bottom = 80.0
@@ -466,6 +467,11 @@ text = "Connect node"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="EditorConnectionPreview" type="Control" parent="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 6 )
 
 [node name="Preview" type="ViewportContainer" parent="Layout/Layout/MapContainer"]
 anchor_top = 1.0
@@ -504,8 +510,10 @@ zoom = Vector2( 5, 5 )
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width" to="." method="_on_Width_value_changed"]
 [connection signal="value_changed" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height" to="." method="_on_Height_value_changed"]
 [connection signal="toggled" from="Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/GridSnapValue" to="." method="_on_GridSnapValue_toggled"]
+[connection signal="gui_input" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_gui_input"]
 [connection signal="popup_request" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_popup_request"]
 [connection signal="scroll_offset_changed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_NodeContainer_scroll_offset_changed"]
-[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_AddButton_pressed"]
-[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/DeleteButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_DeleteButton_pressed"]
-[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/CanvasLayer/ActionMenu/Layout/RegenerateButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_RegenerateButton_pressed"]
+[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout/AddButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_AddButton_pressed"]
+[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout/DeleteButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_DeleteButton_pressed"]
+[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout/RegenerateButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_RegenerateButton_pressed"]
+[connection signal="pressed" from="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/UI/ActionMenu/Layout/ConnectButton" to="Layout/Layout/MapContainer/ViewportContainer/Viewport/Map" method="_on_ConnectButton_pressed"]

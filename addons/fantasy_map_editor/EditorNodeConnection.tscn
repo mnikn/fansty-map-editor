@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://addons/fantasy_map_editor/EditorNode.gd" type="Script" id=1]
+[ext_resource path="res://addons/fantasy_map_editor/EditorNodeConnection.gd" type="Script" id=1]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -18,12 +18,12 @@
 
 [sub_resource type="StyleBoxEmpty" id=8]
 
-[node name="EditorNode" type="GraphNode" groups=[
-"EditorNode",
+[node name="EditorNodeConnection" type="GraphNode" groups=[
+"EditorNodeConnection",
 ]]
-margin_right = 100.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 100, 100 )
+margin_right = 32.0
+margin_bottom = 30.0
+mouse_filter = 1
 custom_styles/commentfocus = SubResource( 1 )
 custom_styles/comment = SubResource( 2 )
 custom_styles/frame = SubResource( 3 )
@@ -33,9 +33,3 @@ custom_styles/defaultfocus = SubResource( 6 )
 custom_styles/breakpoint = SubResource( 7 )
 custom_styles/defaultframe = SubResource( 8 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-origin = Vector2( 200, 100 )
-[connection signal="raise_request" from="." to="." method="_on_EditorNode_raise_request"]
