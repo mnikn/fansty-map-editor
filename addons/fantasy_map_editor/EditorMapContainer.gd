@@ -17,7 +17,7 @@ func _process(delta):
 		if node.is_in_group("EditorNode"):
 			var clone_node = node.duplicate()
 			clone_node.shape_points = node.shape_points
-			clone_node.rect_position = node.offset
+			clone_node.rect_position = node.rect_position
 			clone_node.selected = false
 			self.Preview.add_child(clone_node)
 

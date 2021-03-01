@@ -1,4 +1,4 @@
-extends GraphNode
+extends Control
 
 signal on_selected()
 
@@ -15,6 +15,8 @@ export var connections = []
 const SPACING = 10
 var noise = OpenSimplexNoise.new()
 var shape_points = []
+var selected = false setget set_selected
+var start_drag_time = 0
 
 func _ready():
 	randomize()
@@ -37,8 +39,6 @@ func _draw():
 	self.draw_node()
 	if self.selected:
 		self.draw_container()
-#	if self.selecting:
-#		self.draw_container()
 
 func draw_node():
 	var points_arr = self.shape_points
@@ -73,7 +73,6 @@ func draw_container():
 
 func set_origin(value):
 	origin = value
-	self.offset = origin
 	self.rect_position = origin
 
 func set_node_size(value):
@@ -108,17 +107,36 @@ func set_line_color(value):
 
 func set_solid(value):
 	if solid != value:
-		solid = value;
+		solid = value
 		self.update()
 
 func set_solid_color(value):
 	if solid_color != value:
-		solid_color = value;
+		solid_color = value
 		self.update()
+
+func set_selected(value):
+	selected = value
+	self.update()
 
 func get_random_direction():
 	return(1 if randf() > 0.5 else -1)
 
-#
-#func _on_EditorNode_raise_request():
-#    self.selected
+
+func _on_EditorNode_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			self.emit_signal("on_selected")
+
+func _process(delta):
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		if self.start_drag_time >= 10:
+			var pos = self.get_parent().get_local_mouse_position()
+			self.origin = Vector2(
+				pos.x - self.node_size,
+				pos.y - self.node_size
+			)
+		elif self.selected:
+			self.start_drag_time += 1
+	else:
+		self.start_drag_time = 0

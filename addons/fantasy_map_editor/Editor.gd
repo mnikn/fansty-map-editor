@@ -1,17 +1,17 @@
 extends Control
 
 onready var PropertyPanel = $CanvasLayer/PropertyPanel
-onready var MapNodeContainer = $Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/NodeContainer
+onready var MapNodeContainer = $Layout/Layout/MapContainer/ViewportContainer/Viewport/Map/Container/NodeContainer
 onready var Map = $Layout/Layout/MapContainer/ViewportContainer/Viewport/Map
 var EditorNodeScene = preload("./EditorNode.tscn")
 
 func _ready():
-	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue.color = self.MapNodeContainer.get("custom_styles/bg").bg_color
+#	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapBgValue.color = self.MapNodeContainer.get("custom_styles/bg").bg_color
 	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineColorValue.color = self.Map.config_line_color
 	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/LineWidthValue.value = self.Map.config_line_width
 	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Width.value = self.Map.config_map_size.x
 	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/MapSizeValue/Height.value = self.Map.config_map_size.y
-	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/GridSnapValue.pressed =  self.Map.NodeContainer.use_snap
+#	$Layout/Layout/SettingPanel/MarginContainer/Layout/GeneralSetting/Layout/Layout/GridSnapValue.pressed =  self.Map.NodeContainer.use_snap
 	$Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildValue.pressed = self.Map.config_solid
 	$Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting/Layout/Layout/SoildColorValue.color = self.Map.config_solid_color
 
@@ -26,8 +26,8 @@ func _process(delta):
 	else:
 		$Layout/Layout/SettingPanel/MarginContainer/Layout/NodeSetting.visible = false
 	
-	var format_str = "NodeContainer scroll offset: %sx%s"
-	$Layout/DebugPanel/Layout/NodeConatinerInfo.text = format_str % [self.MapNodeContainer.scroll_offset.x, self.MapNodeContainer.scroll_offset.y]
+#	var format_str = "NodeContainer scroll offset: %sx%s"
+#	$Layout/DebugPanel/Layout/NodeConatinerInfo.text = format_str % [self.MapNodeContainer.scroll_offset.x, self.MapNodeContainer.scroll_offset.y]
 
 func _on_SizeValue_value_changed(value):
 	self.Map.config_size = value
@@ -64,14 +64,10 @@ func _on_MapBgValue_color_changed(color):
 
 
 func _on_Width_value_changed(value):
-	self.Map.config_map_size.x = value
-#    self.MapNodeContainer.rect_min_size.x = value
-#    self.MapNodeContainer.rect_size = self.MapNodeContainer.rect_min_size
+	self.Map.config_map_size = Vector2(value, self.Map.config_map_size.y)
 
 func _on_Height_value_changed(value):
-	self.Map.config_map_size.y = value    
-#    self.MapNodeContainer.rect_min_size.y = value
-#    self.MapNodeContainer.rect_size = self.MapNodeContainer.rect_min_size
+	self.Map.config_map_size = Vector2(self.Map.config_map_size.x, value)  
 
 func _on_GridSnapValue_toggled(button_pressed):
 	self.Map.NodeContainer.use_snap = button_pressed
