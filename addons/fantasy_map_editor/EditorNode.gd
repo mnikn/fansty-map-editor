@@ -129,14 +129,16 @@ func _on_EditorNode_gui_input(event):
 			self.emit_signal("on_selected")
 
 func _process(delta):
-	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and self.selected:
 		if self.start_drag_time >= 10:
 			var pos = self.get_parent().get_local_mouse_position()
+			if pos.x - self.node_size < -self.node_size:
+				return
 			self.origin = Vector2(
-				pos.x - self.node_size,
-				pos.y - self.node_size
+				clamp(pos.x - self.node_size, -self.node_size, self.get_parent().rect_size.x),
+				clamp(pos.y - self.node_size, -self.node_size, self.get_parent().rect_size.y)
 			)
-		elif self.selected:
+		else:
 			self.start_drag_time += 1
 	else:
 		self.start_drag_time = 0

@@ -6,7 +6,7 @@
 [ext_resource path="res://addons/fantasy_map_editor/EditorMap.gd" type="Script" id=5]
 [ext_resource path="res://addons/fantasy_map_editor/EditorConnectionPreview.gd" type="Script" id=6]
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.223529, 0.0745098, 0.0745098, 1 )
 
 [node name="Editor" type="Control"]
@@ -502,7 +502,7 @@ margin_right = 10000.0
 margin_bottom = 10000.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="Layout/Layout/MapContainer/Preview/Viewport"]
 visible = false

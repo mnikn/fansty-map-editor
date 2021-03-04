@@ -33,7 +33,8 @@ func _on_AddButton_pressed():
 	node.line_width = self.config_line_width
 	node.solid = self.config_solid
 	node.solid_color = self.config_solid_color
-	node.connect("on_selected", self, "_on_node_selected", [node])
+#	node.connect("on_selected", self, "_on_node_selected", [node])
+	node.connect("gui_input", self, "_on_node_gui_input", [node])
 	self.NodeContainer.add_child(node)
 	self.ActionMenu.hide()
 
@@ -50,11 +51,6 @@ func _on_node_selected(node):
 	self.selecting_node = node
 
 func _process(delta):
-#	var selected_node = null
-#	for child in self.NodeContainer.get_children():
-#		if child is GraphNode and child.selected:
-#			selected_node = child
-#	self.selecting_node = selected_node
 	$UI/ActionMenu/Layout/DeleteButton.disabled = self.selecting_node == null
 	$UI/ActionMenu/Layout/RegenerateButton.disabled = self.selecting_node == null
 	$UI/ActionMenu/Layout/ConnectButton.disabled = self.selecting_node == null
@@ -106,4 +102,13 @@ func set_selecting_node(value):
 	elif value == null and selecting_node != null:
 		selecting_node.selected = false
 	selecting_node = value
-		
+
+func _on_node_gui_input(event, node):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and event.pressed:
+			self.selecting_node = node
+		elif event.button_index == BUTTON_RIGHT and event.pressed:
+			var pos = self.NodeContainer.get_global_mouse_position()
+			pos.x -= self.ActionMenu.rect_min_size.x / 2
+			pos.y -= self.ActionMenu.rect_min_size.y / 2 - 20
+			self.ActionMenu.popup(Rect2(pos, self.ActionMenu.rect_min_size))
